@@ -6,3 +6,12 @@ terraform {
     }
   }
 }
+
+
+resource "truemark-bitbucket_project" "myLittlePony_Project" {
+  name             = "test-terraform2_aSecondName"
+  key              = "PROJK"
+  is_private       = true
+  description      = "a thesis length (or shorter) overview of this project."
+  owner            = "briancabbott@gmail.com"
+}

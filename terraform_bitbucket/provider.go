@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -37,9 +37,8 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	password := d.Get("password").(string)
 
 	var diags diag.Diagnostics
-	// perform BB login now...
-	return nil, diags
-	// }
+	var c 
+
 	err := resource.RetryContext(ctx, 30*time.Minute, func() *resource.RetryError {
 		err := c.Login()
 		if strings.Contains(err.Error(), "Exceeded rate limit") {
