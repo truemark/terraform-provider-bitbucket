@@ -1,8 +1,15 @@
 module github.com/truemark/terraform-provider-bitbucket
 
-go 1.13
+go 1.16
+
+// rewrite (
+// 	github.com/truemark/terraform-provider-bitbucket/bitbucket_client => "../bitbucket_client"
+
+// )
 
 require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.5.0
-	golang.org/x/oauth2 v0.0.0-20210323180902-22b0adad7558
+	github.com/stretchr/testify v1.7.0 // indirect
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
+	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
 )

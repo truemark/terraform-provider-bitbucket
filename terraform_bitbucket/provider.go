@@ -15,11 +15,20 @@ func Provider() *schema.Provider {
 	// TODO: log.Printf("[INFO] Creating Provider")
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"": {
+			"username": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("", ""),
+				DefaultFunc: schema.EnvDefaultFunc("TRUEMARK_CONFLUENTCLOUD_USERNAME", ""),
 			},
+			"password": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Sensitive:   true,
+				DefaultFunc: schema.EnvDefaultFunc("TRUEMARK_CONFLUENTCLOUD_PASSWORD", ""),
+			},
+			"configuration": {
+				
+			}
 		},
 		ConfigureContextFunc: providerConfigure,
 		ResourcesMap: map[string]*schema.Resource{

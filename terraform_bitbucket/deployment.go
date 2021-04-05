@@ -201,10 +201,6 @@ func ResourceDeployment() *schema.Resource {
 						},
 					},
 				},
-				// "x-bb-default-fields": [
-				// 	"uuid"
-				// ],
-				// "x-bb-url": "/rest/2.0/accounts/{target_user.uuid}/repositories/{repository.uuid}/environments/{uuid}"
 			},
 			"release": {
 				Type:        schema.TypeString,
@@ -236,92 +232,7 @@ func ResourceDeployment() *schema.Resource {
 						Type:     schema.TypeString,
 						Required: true,
 						ForceNew: true,
-						// "$ref": "#/definitions/commit",
 						Description: "The commit associated with this release.",
-
-						// "base_commit": {
-						// 	"allOf": [
-						// 		{
-						// 			"$ref": "#/definitions/object"
-						// 		},
-						// 		{
-						// 			"type": "object",
-						// 			"title": "Base Commit",
-						// 			"description": "The common base type for both repository and snippet commits.",
-						// 			"properties": {
-						// 				"hash": {
-						// 					"type": "string",
-						// 					"pattern": "[0-9a-f]{7,}?"
-						// 				},
-						// 				"date": {
-						// 					"type": "string",
-						// 					"format": "date-time"
-						// 				},
-						// 				"author": {
-						// 					"$ref": "#/definitions/author"
-						// 				},
-						// 				"message": {
-						// 					"type": "string"
-						// 				},
-						// 				"summary": {
-						// 					"type": "object",
-						// 					"properties": {
-						// 						"raw": {
-						// 							"type": "string",
-						// 							"description": "The text as it was typed by a user."
-						// 						},
-						// 						"markup": {
-						// 							"type": "string",
-						// 							"description": "The type of markup language the raw content is to be interpreted in.",
-						// 							"enum": [
-						// 								"markdown",
-						// 								"creole",
-						// 								"plaintext"
-						// 							]
-						// 						},
-						// 						"html": {
-						// 							"type": "string",
-						// 							"description": "The user's content rendered as HTML."
-						// 						}
-						// 					},
-						// 					"additionalProperties": false
-						// 				},
-						// 				"parents": {
-						// 					"type": "array",
-						// 					"items": {
-						// 						"$ref": "#/definitions/base_commit"
-						// 					},
-						// 					"minItems": 0
-						// 				}
-						// 			},
-						// 			"additionalProperties": true
-						// 		}
-						// 	]
-						// },
-
-						// "allOf": [
-						// 	{
-						// 		"$ref": "#/definitions/base_commit"
-						// 	},
-						// 	{
-						// 		"type": "object",
-						// 		"title": "Commit",
-						// 		"description": "A repository commit object.",
-						// 		"properties": {
-						// 			"repository": {
-						// 				"$ref": "#/definitions/repository"
-						// 			},
-						// 			"participants": {
-						// 				"type": "array",
-						// 				"items": {
-						// 					"$ref": "#/definitions/participant"
-						// 				},
-						// 				"minItems": 0
-						// 			}
-						// 		},
-						// 		"additionalProperties": true
-						// 	}
-						// ]
 						Enum: &map[string]*schema.Schema{},
 					},
 					"created_on": {
