@@ -4,7 +4,7 @@ package main
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
-	provider "github.com/briancabbott/terraform-provider-bitbucket/terraform_bitbucket"
+	provider "github.com/truemark/terraform-provider-bitbucket/terraform_bitbucket"
 )
 
 func main() {

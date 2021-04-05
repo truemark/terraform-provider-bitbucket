@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/briancabbott/terraform-provider-bitbucket/terraform_bitbucket/bitbucket_client"
+	"github.com/truemark/terraform-provider-bitbucket/terraform_bitbucket/bitbucket_client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
