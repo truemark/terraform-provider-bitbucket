@@ -2,10 +2,8 @@ package terraform_bitbucket
 
 import (
 	"context"
-	"fmt"
-	"os"
+	"log"
 
-	"github.com/truemark/terraform-provider-bitbucket/terraform_bitbucket/bitbucket_client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -151,17 +149,18 @@ func ResourceProject() *schema.Resource {
 						Description: "A link to a resource related to this object.",
 						Elem: &map[string]*schema.Schema{
 							"href": {
-								Type: 		schema.TypeString,
-								Required:   false,
-								ForceNew:   true,
-								ValidateFunc: ValidateResourcePatternType,
+								Type:     schema.TypeString,
+								Required: false,
+								ForceNew: true,
+								// ValidateFunc: ValidateResourcePatternType,
 							},
 							"name": {
-								Type:       schema.TypeString,
-								Required:   false,
-								ForceNew:   true,
-								ValidateFunc: ValidateResourcePatternType,
+								Type:     schema.TypeString,
+								Required: false,
+								ForceNew: true,
+								// ValidateFunc: ValidateResourcePatternType,
 							},
+						},
 					},
 				},
 			},

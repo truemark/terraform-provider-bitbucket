@@ -19,9 +19,9 @@ func ResourceRepository() *schema.Resource {
 		},
 		Schema: map[string]*schema.Schema{
 			"uuid": {
-				// The repository's immutable id. This can be used as a 
-				// substitute for the slug segment in URLs. Doing this guarantees 
-				// your URLs will survive renaming of the repository by its owner, or 
+				// The repository's immutable id. This can be used as a
+				// substitute for the slug segment in URLs. Doing this guarantees
+				// your URLs will survive renaming of the repository by its owner, or
 				// even transfer of the repository to a different user.
 				// Uuid *string `json:"uuid,omitempty"`
 				Type:        schema.TypeString,
@@ -30,8 +30,8 @@ func ResourceRepository() *schema.Resource {
 				Description: "",
 			},
 			"full_name": {
-				// The concatenation of the repository owner's username and the 
-				// slugified name, e.g. \"evzijst/interruptingcow\". 
+				// The concatenation of the repository owner's username and the
+				// slugified name, e.g. \"evzijst/interruptingcow\".
 				// This is the same string used in Bitbucket URLs.
 				Type:        schema.TypeString,
 				Required:    true,
@@ -46,32 +46,33 @@ func ResourceRepository() *schema.Resource {
 				Description: "",
 			},
 			// IsPrivate   *bool       `json:"is_private,omitempty"`
-			"parent": {Type: schema.TypeString,
+			"parent": {
+				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
-				Description: ""
+				Description: "",
 			},
 			// Parent      *Repository `json:"parent,omitempty"`
 			"scm": {
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
-				Description: ""
+				Description: "",
 			},
 			// Scm         *string     `json:"scm,omitempty"`
 			"owner": {
-			// Owner       *Account    `json:"owner,omitempty"`
+				// Owner       *Account    `json:"owner,omitempty"`
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
-				Description: ""
+				Description: "",
 			},
 			"name": {
 				// Name        *string     `json:"name,omitempty"`
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
-				Description: ""
+				Description: "",
 			},
 			"description": {
 				// Description *string     `json:"description,omitempty"`
@@ -87,14 +88,14 @@ func ResourceRepository() *schema.Resource {
 				ForceNew:    true,
 				Description: "",
 			},
-			"updated_on": {				
+			"updated_on": {
 				// UpdatedOn   *time.Time  `json:"updated_on,omitempty"`
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
 				Description: "",
 			},
-			
+
 			"size": {
 				// Size        *int32      `json:"size,omitempty"`
 				Type:        schema.TypeString,
@@ -126,7 +127,7 @@ func ResourceRepository() *schema.Resource {
 			},
 			//  Controls the rules for forking this repository.  * **allow_forks**: unrestricted forking * **no_public_forks**: restrict forking to private forks (forks cannot   be made public later) * **no_forks**: deny all forking
 
-			"fork_policy": {				
+			"fork_policy": {
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
@@ -140,7 +141,7 @@ func ResourceRepository() *schema.Resource {
 				Description: "",
 			},
 			// Project    *Project `json:"project,omitempty"`
-			"mainbranch": {				
+			"mainbranch": {
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,

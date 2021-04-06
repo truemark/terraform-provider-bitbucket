@@ -17,10 +17,10 @@ import (
 
 func ResourceDeployment() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: DeploymentCreate,
-		ReadContext:   DeploymentRead,
-		UpdateContext: DeploymentUpdate,
-		DeleteContext: DeploymentDelete,
+		CreateContext: deploymentCreate,
+		ReadContext:   deploymentRead,
+		UpdateContext: deploymentUpdate,
+		DeleteContext: deploymentDelete,
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
@@ -62,23 +62,20 @@ func ResourceDeployment() *schema.Resource {
 						Required:     true,
 						ForceNew:     true,
 						Description:  "The status of a completed deployment.",
-						ValidateFunc: validation.ValidateRFC3339TimeString,
+						ValidateFunc: validation.IsRFC3339Time,
 					},
 					"deployment_state_in_progress": {
 						Type:        schema.TypeList,
 						Required:    true,
 						ForceNew:    true,
 						Description: "A Bitbucket Deployment IN_PROGRESS deployment state.",
-						Enum: &map[string]*schema.Schema{
+						Elem: &map[string]*schema.Schema{
 							"name": {
-								// "enum": [
-								// 	"IN_PROGRESS"
-								// ],
 								Type:        schema.TypeList,
 								Required:    true,
 								ForceNew:    true,
 								Description: "The name of deployment state (IN_PROGRESS).",
-								Enum: &map[string]*schema.Schema{
+								Elem: &map[string]*schema.Schema{
 									"IN_PROGRESS": {},
 								},
 							},
@@ -103,7 +100,7 @@ func ResourceDeployment() *schema.Resource {
 								Required:     true,
 								ForceNew:     true,
 								Description:  "The timestamp when the deployment was started.",
-								ValidateFunc: validation.ValidateRFC3339TimeString,
+								ValidateFunc: validation.IsRFC3339Time,
 								// "type": "string",
 								// "format": "date-time",
 								// "description": "The timestamp when the deployment was started."
@@ -115,7 +112,7 @@ func ResourceDeployment() *schema.Resource {
 						Required:    true,
 						ForceNew:    true,
 						Description: "A Bitbucket Deployment IN_PROGRESS deployment state.",
-						Enum: &map[string]*schema.Schema{
+						Elem: &map[string]*schema.Schema{
 							"name": {
 								// "enum": [
 								// 	"UNDEPLOYED"
@@ -140,7 +137,7 @@ func ResourceDeployment() *schema.Resource {
 						Required:    true,
 						ForceNew:    true,
 						Description: "Link to trigger the deployment.",
-						Enum: &map[string]*schema.Schema{
+						Elem: &map[string]*schema.Schema{
 							"name": {
 								Type:        schema.TypeString,
 								Required:    true,
@@ -158,7 +155,7 @@ func ResourceDeployment() *schema.Resource {
 						Required:    true,
 						ForceNew:    true,
 						Description: "Link to trigger the deployment.",
-						Enum: &map[string]*schema.Schema{
+						Elem: &map[string]*schema.Schema{
 							"name": {
 								// "enum": [
 								// 	"FAILED"
@@ -179,13 +176,13 @@ func ResourceDeployment() *schema.Resource {
 				Description: "A deployment environment.",
 				// "$ref": "#/definitions/deployment_environment",
 				// "description": ""
-				Enum: &map[string]*schema.Schema{
+				Elem: &map[string]*schema.Schema{
 					"deployment_environment": {
 						Type:        schema.TypeList,
 						Required:    true,
 						ForceNew:    true,
 						Description: "A Bitbucket Deployment Environment.",
-						Enum: &map[string]*schema.Schema{
+						Elem: &map[string]*schema.Schema{
 							"uuid": {
 								Type:        schema.TypeString,
 								Required:    true,
@@ -208,7 +205,7 @@ func ResourceDeployment() *schema.Resource {
 				ForceNew:    true,
 				Description: "The release associated with this deployment.",
 				// "$ref": "#/definitions/deployment_release",
-				Enum: &map[string]*schema.Schema{
+				Elem: &map[string]*schema.Schema{
 					"uuid": {
 						Type:        schema.TypeString,
 						Required:    true,
@@ -216,10 +213,10 @@ func ResourceDeployment() *schema.Resource {
 						Description: "The UUID identifying the release.",
 					},
 					"name": {
-						Type:          schema.TypeString,
-						Required:      true,
-						ForceNew:      true,
-						"description": "The name of the release.",
+						Type:        schema.TypeString,
+						Required:    true,
+						ForceNew:    true,
+						Description: "The name of the release.",
 					},
 					"url": {
 						Type:     schema.TypeString,
@@ -229,18 +226,18 @@ func ResourceDeployment() *schema.Resource {
 						Description: "Link to the pipeline that produced the release.",
 					},
 					"commit": {
-						Type:     schema.TypeString,
-						Required: true,
-						ForceNew: true,
+						Type:        schema.TypeString,
+						Required:    true,
+						ForceNew:    true,
 						Description: "The commit associated with this release.",
-						Enum: &map[string]*schema.Schema{},
+						Elem:        &map[string]*schema.Schema{},
 					},
 					"created_on": {
 						Type:         schema.TypeString,
 						Required:     true,
 						ForceNew:     true,
 						Description:  "The timestamp when the release was created.",
-						ValidateFunc: validation.ValidateRFC3339TimeString,
+						ValidateFunc: validation.IsRFC3339Time,
 					},
 				},
 			},
@@ -248,18 +245,18 @@ func ResourceDeployment() *schema.Resource {
 	}
 }
 
-func DeploymentCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func deploymentCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	return nil
 }
 
-func DeploymentRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func deploymentRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	return nil
 }
 
-func DeploymentUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func deploymentUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	return nil
 }
 
-func DeploymentDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func deploymentDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	return nil
 }

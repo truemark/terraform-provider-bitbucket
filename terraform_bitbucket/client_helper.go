@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
+	"github.com/briancabbott/bitbucket_client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/truemark/terraform-provider-bitbucket/terraform_bitbucket/bitbucket_client"
 )
 
 func GetConfiguredAPIClient(ctx context.Context, d *schema.ResourceData, meta interface{}) *bitbucket_client.APIClient {
