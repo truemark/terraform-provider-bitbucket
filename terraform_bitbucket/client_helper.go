@@ -2,9 +2,10 @@ package terraform_bitbucket
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/truemark/terraform-provider-bitbucket/bitbucket_client"
+	"github.com/truemark/terraform-provider-bitbucket/terraform_bitbucket/bitbucket_client"
 )
 
 func GetConfiguredAPIClient(ctx context.Context, d *schema.ResourceData, meta interface{}) *bitbucket_client.APIClient {
@@ -20,6 +21,7 @@ func GetConfiguredAPIClient(ctx context.Context, d *schema.ResourceData, meta in
 		UserName: username,
 		Password: password,
 	})
-	r, err := bitbucket_client.Service.Operation(auth, args)
-
+	log.Println(auth)
+	// r, err := bitbucket_client.Service.Operation(auth, args)
+	return nil
 }
