@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/briancabbott/bitbucket_client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -13,15 +14,15 @@ func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"username": {
-				Type:        schema.TypeString,
-				Optional:    false,
-				Sensitive:   true,
+				Type:     schema.TypeString,
+				Required: true,
+				// Sensitive:   true,
 				DefaultFunc: schema.EnvDefaultFunc("TRUEMARK_CONFLUENTCLOUD_USERNAME", ""),
 			},
 			"password": {
-				Type:        schema.TypeString,
-				Optional:    false,
-				Sensitive:   true,
+				Type:     schema.TypeString,
+				Required: true,
+				// Sensitive:   true,
 				DefaultFunc: schema.EnvDefaultFunc("TRUEMARK_CONFLUENTCLOUD_PASSWORD", ""),
 			},
 			"configuration": {
@@ -31,20 +32,26 @@ func Provider() *schema.Provider {
 		},
 		ConfigureContextFunc: providerConfigure,
 		ResourcesMap: map[string]*schema.Resource{
-			"truemark-bitbucket_deployment": resourceDeployment(),
-			"truemark-bitbucket_group":      resourceGroup(),
-			"truemark-bitbucket_project":    resourceProject(),
-			"truemark-bitbucket_repository": resourceRepository(),
+			// "truemark-bitbucket_deployment": ResourceDeployment(),
+			// "truemark-bitbucket_group":      ResourceGroup(),
+			"truemark-bitbucket_project": ResourceProject(),
+			// "truemark-bitbucket_repository": ResourceRepository(),
 		},
 	}
 }
 
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 	log.Printf("[INFO] Initializing BitBucket Client")
+
 	username := d.Get("username").(string)
 	password := d.Get("password").(string)
-	log.Println(username)
-	log.Println(password)
+
+	// if password !=
+	auth_ctx := context.WithValue(ctx, bitbucket_client.ContextBasicAuth, bitbucket_client.BasicAuth{
+		UserName: username,
+		Password: password,
+	})
+
 	// var diags diag.Diagnostics
 	// var c
 
@@ -56,21 +63,5 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	// 	}
 	// 	return resource.NonRetryableError(err)
 	// })
-	return nil, nil // c, diag.FromErr(err)
-}
-
-func resourceDeployment() *schema.Resource {
-	return &schema.Resource{}
-}
-
-func resourceGroup() *schema.Resource {
-	return &schema.Resource{}
-}
-
-func resourceProject() *schema.Resource {
-	return &schema.Resource{}
-}
-
-func resourceRepository() *schema.Resource {
-	return &schema.Resource{}
+	return auth_ctx, nil // c, diag.FromErr(err)
 }
