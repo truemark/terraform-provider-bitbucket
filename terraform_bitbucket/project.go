@@ -39,6 +39,8 @@ import (
 // }
 
 func ResourceProject() *schema.Resource {
+	log.Println("BCA-DBG: Into => terraform_bitbucket.ResourceProject()")
+
 	return &schema.Resource{
 		CreateContext: projectCreate,
 		ReadContext:   projectRead,
@@ -50,86 +52,73 @@ func ResourceProject() *schema.Resource {
 		// A Bitbucket project. Projects are used by teams to organize repositories.
 		Schema: map[string]*schema.Schema{
 			"uuid": {
-				Type:     schema.TypeString,
-				Required: false,
-				Optional: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    false,
+				Optional:    true,
 				Description: "The project's immutable id.",
 			},
 			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    true,
 				Description: "The name of the project.",
 			},
 			"description": {
-				Type:     schema.TypeString,
-				Required: false,
-				Optional: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    false,
+				Optional:    true,
 				Description: "",
 			},
 			"key": {
-				Type:     schema.TypeString,
-				Required: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    true,
 				Description: "The project's key.",
 			},
 			"team_workspace_member": {
-				Type:     schema.TypeList,
-				Required: true,
-				// ForceNew:    true,
+				Type:        schema.TypeList,
+				Required:    true,
 				Description: "The name of the Workspace or Team that this Project Belongs to. Note: this is a TrueMark created value for signalling the correct assocation for creation/deletion/listing, etc and not a BitBucket suppported value.",
-				// Elem: &map[string]*schema.Schema{
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
-							// ForceNew: true,
 							// ValidateFunc: validateTeamWorkspaceMembership,
 							Description: "('team'|'workspace').",
 						},
 						"name": {
-							Type:     schema.TypeString,
-							Required: true,
-							// ForceNew:    true,
+							Type:        schema.TypeString,
+							Required:    true,
 							Description: "The name of the project or workspace.",
 						},
 					},
 				},
 			},
 			"owner": {
-				Type:     schema.TypeString,
-				Required: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    true,
 				Description: "",
 			},
 			"is_private": {
-				Type:     schema.TypeBool,
-				Required: true,
-				// ForceNew:    true,
+				Type:        schema.TypeBool,
+				Required:    true,
 				Description: "Indicates whether the project is publicly accessible, or whether it is private to the team and consequently only visible to team members. Note that private projects cannot contain public repositories.",
 			},
 			"created_on": {
-				Type:     schema.TypeString,
-				Required: false,
-				Optional: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    false,
+				Optional:    true,
 				Description: "",
 			},
 			"updated_on": {
-				Type:     schema.TypeString,
-				Required: false,
-				Optional: true,
-				// ForceNew:    true,
+				Type:        schema.TypeString,
+				Required:    false,
+				Optional:    true,
 				Description: "",
 			},
 			"links": {
-				Type:     schema.TypeList,
-				Required: false,
-				Optional: true,
-				// ForceNew:    true,
+				Type:        schema.TypeList,
+				Required:    false,
+				Optional:    true,
 				Description: "",
 				// Elem: &map[string]*schema.Schema{
 				Elem: &schema.Resource{
@@ -138,34 +127,29 @@ func ResourceProject() *schema.Resource {
 							Type:     schema.TypeList,
 							Required: false,
 							Optional: true,
-							// ForceNew: true,
 							// ValidateFunc: ValidateResourceType,
 							Description: "A link to a resource related to this object.",
-							// Elem: &map[string]*schema.Schema{
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"href": {
 										Type:     schema.TypeString,
 										Required: false,
 										Optional: true,
-										// ForceNew: true,
 										// ValidateFunc: ValidateResourceType,
 									},
 									"name": {
 										Type:     schema.TypeString,
 										Required: false,
 										Optional: true,
-										// ForceNew: true,
 										// ValidateFunc: ValidateResourceType,
 									},
 								},
 							},
 						},
 						"avatar": {
-							Type:     schema.TypeList,
-							Required: false,
-							Optional: true,
-							// ForceNew:    true,
+							Type:        schema.TypeList,
+							Required:    false,
+							Optional:    true,
 							Description: "A link to a resource related to this object.",
 							// Elem: &map[string]*schema.Schema{
 							Elem: &schema.Resource{
@@ -174,14 +158,12 @@ func ResourceProject() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: false,
 										Optional: true,
-										// ForceNew: true,
 										// ValidateFunc: ValidateResourcePatternType,
 									},
 									"name": {
 										Type:     schema.TypeString,
 										Required: false,
 										Optional: true,
-										// ForceNew: true,
 										// ValidateFunc: ValidateResourcePatternType,
 									},
 								},
@@ -219,59 +201,45 @@ func ResourceProject() *schema.Resource {
 // }
 
 func projectCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	log.Println("BCA-DBG: Into => terraform_bitbucket.projectCreate()")
 
-	// username := d.Get("username").(string)
-	// password := d.Get("password").(string)
-
-	log.Println("Entering projectCreate()")
+	fmt.Fprintf(os.Stderr, "Entering projectCreate()\n")
 
 	membership := d.Get("team_workspace_member")
-	log.Println(membership)
+	fmt.Fprintf(os.Stderr, "membership: %v\n", membership)
 
-	body := *bitbucket_client.NewProject() // Project |
+	project := *bitbucket_client.NewProject()
 
-	tmp_name := d.Get("name").(string)
-	body.Name = &tmp_name
+	nameParam := d.Get("name").(string)
+	project.Name = &nameParam
 
-	tmp_description := d.Get("description").(string)
-	body.Description = &tmp_description
+	description := d.Get("description").(string)
+	project.Description = &description
 
-	tmp_key := d.Get("key").(string)
-	body.Key = &tmp_key
+	key := d.Get("key").(string)
+	project.Key = &key
 
-	tmp_isprivate := d.Get("is_private").(bool)
-	body.IsPrivate = &tmp_isprivate
+	isPrivate := d.Get("is_private").(bool)
+	project.IsPrivate = &isPrivate
 
-	// body.Owner = d.Get("owner")
+	// project.Owner = d.Get("owner")
 	// links := d.Get("links")
 
 	configuration := bitbucket_client.NewConfiguration()
 	configuration.Debug = true
 	api_client := bitbucket_client.NewAPIClient(configuration)
-	// auth_ctx := context.WithValue(context.Background(), bitbucket_client.ContextBasicAuth, bitbucket_client.BasicAuth{
-	// 	UserName: username,
-	// 	Password: password,
-	// })
 
-	log.Println("")
-	log.Println("Meta: ")
-	log.Println(meta)
-	c := meta.(context.Context)
-	resp, r, err := api_client.ProjectsApi.WorkspacesWorkspaceProjectsPost(c, "bitbucket-tfprovider-workspace").Body(body).Execute()
-	log.Println("completed execute call for HTTP ")
-	log.Println(resp)
-	log.Println(r)
-	log.Println(err)
+	auth := context.WithValue(ctx, bitbucket_client.ContextBasicAuth, meta)
+	projectRequest := api_client.ProjectsApi.WorkspacesWorkspaceProjectsPost(auth, "bitbucket-tfprovider-workspace")
 
+	newProject, response, err := projectRequest.Body(project).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stdout, "Error when calling `ProjectsApi.WorkspacesWorkspaceProjectsPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.WorkspacesWorkspaceProjectsPost``: %v\n", err)
 	}
-	fmt.Fprintf(os.Stdout, "Full HTTP response: %v\n", r)
-	// }
-	// response from `WorkspacesWorkspaceProjectsPost`: Project
-	fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.WorkspacesWorkspaceProjectsPost`: %v\n", resp)
+	fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", response)
+	fmt.Fprintf(os.Stderr, "Response from `ProjectsApi.WorkspacesWorkspaceProjectsPost`: %v\n", newProject)
 
-	return diag.FromErr(err)
+	return nil // diag.FromErr(err)
 }
 
 func projectRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {

@@ -95,8 +95,7 @@ func ResourceDeployment() *schema.Resource {
 							},
 							"start_date": {
 								// Type: 		 schema.TypeList,
-								Type: schema.TypeString,
-
+								Type:         schema.TypeString,
 								Required:     true,
 								ForceNew:     true,
 								Description:  "The timestamp when the deployment was started.",

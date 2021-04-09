@@ -9,9 +9,8 @@ terraform {
 
 provider "truemark-bitbucket" {
   username = "briancabbott@gmail.com"
-  password = "mypassword"
+  password = ""
 }
-
 
 ### 
 ## TerraForm Bitbucket Properties: 
@@ -20,9 +19,9 @@ provider "truemark-bitbucket" {
 ##    - "is_private"  - weather or not the repository is publically accessible. 
 ##    - "description" - a description of the project.
 ##    - "owner"       - the owner of the project.
-resource "truemark-bitbucket_project" "terraform-project" {
-  name             = "terraform-project"
-  key              = "TFPROJ"
+resource "truemark-bitbucket_project" "terraform-project-11" {
+  name             = "terraform-project-11"
+  key              = "TFPROJ11"
   is_private       = true
   description      = "an overview of the project."
   owner            = "babbott@truemark.io"

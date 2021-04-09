@@ -10,7 +10,7 @@ import (
 )
 
 func Provider() *schema.Provider {
-	// TODO: log.Printf("[INFO] Creating Provider")
+	log.Println("BCA-DBG: Into => terraform_bitbucket.Provider()")
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"username": {
@@ -41,27 +41,18 @@ func Provider() *schema.Provider {
 }
 
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
+	log.Println("BCA-DBG: Into => terraform_bitbucket.providerConfigure()")
 	log.Printf("[INFO] Initializing BitBucket Client")
 
 	username := d.Get("username").(string)
 	password := d.Get("password").(string)
 
 	// if password !=
-	auth_ctx := context.WithValue(ctx, bitbucket_client.ContextBasicAuth, bitbucket_client.BasicAuth{
+	auth := bitbucket_client.BasicAuth{
 		UserName: username,
 		Password: password,
-	})
+	}
 
-	// var diags diag.Diagnostics
-	// var c
-
-	// err := resource.RetryContext(ctx, 30*time.Minute, func() *resource.RetryError {
-	// 	err := c.Login()
-	// 	if strings.Contains(err.Error(), "Exceeded rate limit") {
-	// 		// TODO: log.Printf("[INFO] ConfluentCloud API rate limit exceeded, retrying.")
-	// 		return resource.RetryableError(err)
-	// 	}
-	// 	return resource.NonRetryableError(err)
-	// })
-	return auth_ctx, nil // c, diag.FromErr(err)
+	// var err error = nil
+	return auth, nil
 }

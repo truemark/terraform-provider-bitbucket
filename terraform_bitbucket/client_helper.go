@@ -9,7 +9,6 @@ import (
 )
 
 func GetConfiguredAPIClient(ctx context.Context, d *schema.ResourceData, meta interface{}) *bitbucket_client.APIClient {
-
 	username := d.Get("username").(string)
 	password := d.Get("password").(string)
 
